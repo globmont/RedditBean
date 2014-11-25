@@ -1,0 +1,8 @@
+package api;
+
+import org.json.JSONObject;
+
+public class Comment implements Thing {
+	private JSONObject data;
+	
+}

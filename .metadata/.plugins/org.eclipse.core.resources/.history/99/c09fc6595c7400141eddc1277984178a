@@ -1,0 +1,13 @@
+package api.listings;
+
+import helpers.HTTPHelper;
+import api.Comment;
+import api.Submission;
+
+public class Listing {
+	private static HTTPHelper http = new HTTPHelper();
+	public static Comment[] getCommentsFromPost(Submission post, String sort, int context, Comment comment, int depth, int limit) {
+		
+	}
+	
+}

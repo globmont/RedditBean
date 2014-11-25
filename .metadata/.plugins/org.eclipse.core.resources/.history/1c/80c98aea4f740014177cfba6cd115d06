@@ -1,0 +1,52 @@
+package helpers;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONObject;
+
+public class HTTPHelper {
+	final String HOST = "www.reddit.com";
+	final String SCHEME = "http";
+	HttpClient client = HttpClientBuilder.create().build();
+	HttpPost postRequest = new HttpPost();
+	HttpGet getRequest = new HttpGet();
+	URIBuilder builder = new URIBuilder();
+	
+	public HTTPHelper() {
+		builder.setScheme(SCHEME);
+		builder.setHost(HOST);
+	}
+	
+	public JSONObject makeGetRequest(String path, HashMap<String, String> parameters, HashMap<String, String> headers) {
+		builder.clearParameters();
+		getRequest.reset();
+		for(String key : parameters.keySet()) {
+			builder.setParameter(key, parameters.get(key));
+		}
+		
+		for(String key : headers.keySet()) {
+			getRequest.addHeader(key, headers.get(key));
+		}
+		
+		try {
+			HttpResponse response = client.execute(getRequest);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+}

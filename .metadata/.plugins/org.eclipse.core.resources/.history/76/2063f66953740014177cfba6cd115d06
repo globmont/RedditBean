@@ -1,0 +1,7 @@
+package api;
+
+public class Comment implements Thing {
+	private String fullName;
+	private String bodyText;
+	
+}

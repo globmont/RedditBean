@@ -1,0 +1,9 @@
+package api;
+
+public class Subreddit {
+	private JSONObject data;
+	
+	public Subreddit(JSONObject data) {
+		this.data = data;
+	}
+}

@@ -1,0 +1,9 @@
+package helpers;
+
+public class Meta {
+	private final String USER_AGENT = "RedditBean by globmont";
+	
+	public static String getUserAgent() {
+		return USER_AGENT;
+	}
+}

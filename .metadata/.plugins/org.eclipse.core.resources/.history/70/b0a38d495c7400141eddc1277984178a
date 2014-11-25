@@ -1,0 +1,10 @@
+package api.listings;
+
+import api.Comment;
+import api.Subreddit;
+
+public class Listing {
+	public static Comment[] getCommentsFromPost(Submission post, String sort, int context, Comment comment, int depth, int limit) {
+		
+	}
+}

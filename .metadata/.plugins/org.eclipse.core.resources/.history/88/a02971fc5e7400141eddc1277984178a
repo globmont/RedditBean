@@ -1,0 +1,9 @@
+package api;
+
+public class Subreddit {
+	private String name;
+	
+	public Subreddit(String name) {
+		this.name = name;
+	}
+}

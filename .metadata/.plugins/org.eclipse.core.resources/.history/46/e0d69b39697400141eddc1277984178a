@@ -1,0 +1,35 @@
+package main;
+
+import api.Comment;
+import api.Submission;
+import api.Subreddit;
+import api.listings.Listing;
+import java.util.Random;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		Random r = new Random();
+		Subreddit theBroRoom = Listing.getSubreddit("passtheblend");
+		System.out.println(theBroRoom.get("display_name"));
+		Submission[] submissions = Listing.getPostsFromSubreddit(theBroRoom, "top", null, null, 5, "all", 0);
+		Submission first = submissions[r.nextInt(submissions.length)];
+		System.out.println(first.get("title"));
+		Comment[] comments = Listing.getCommentsFromPost(first, "top", 0, null, 100, 100);
+		
+		for(Comment c : comments) {
+			if(c.isTopLevel()) {
+				printComment(c, "");
+				System.out.println("------------");
+			}
+		}
+	}
+	
+	public static void printComment(Comment comment, String prefix) {
+		System.out.println(prefix + comment.get("body"));
+		for(Comment child : comment.getChildren()) {
+			printComment(child, prefix + "\t");
+		}
+	}
+
+}

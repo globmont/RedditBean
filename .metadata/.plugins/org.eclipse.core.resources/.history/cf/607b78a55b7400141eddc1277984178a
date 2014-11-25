@@ -1,0 +1,7 @@
+package api.listings;
+
+public class Listing {
+	public static Comment[] getCommentsFromPost() {
+		
+	}
+}

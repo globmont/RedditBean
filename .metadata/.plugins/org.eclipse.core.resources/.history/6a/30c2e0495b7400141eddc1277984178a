@@ -1,0 +1,65 @@
+package main;
+
+import helpers.HTTPHelper;
+
+import java.util.HashMap;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import api.Comment;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		HTTPHelper http = new HTTPHelper();
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("article", "2nakqj");
+		params.put("context", "0");
+		params.put("sort", "top");
+		HashMap<String, String> headers = new HashMap<String, String>();
+		headers.put("User-Agent", "RedditBean by globmont");
+		JSONObject json = http.makeGetRequest("/r/thebroroom/comments/.json", params, headers);
+		System.out.println(json.toString());
+		
+		
+		
+		JSONArray comments = (JSONArray)((JSONObject)json.get("data")).get("children");
+		//HashMap<String, LinkedNode<String>> commentTree = new HashMap<String, LinkedNode<String>>();
+		HashMap<String, Comment> commentList = new HashMap<String, Comment>();
+		for(int i = 0; i < comments.length(); i++) {
+			JSONObject data = comments.getJSONObject(i).getJSONObject("data");
+			boolean isTopLevel = data.getString("link_id").equals(data.getString("parent_id"));
+			commentList.put(data.getString("name"), new Comment(data, isTopLevel));
+		}
+		
+		for(int i = 0; i < comments.length(); i++) {
+			JSONObject data = comments.getJSONObject(i).getJSONObject("data");
+			if(commentList.get(data.getString("parent_id")) != null) {
+				//System.out.println(data.getString("parent_id") + "\t" + data.getString("name"));
+				commentList.get(data.getString("parent_id")).addChild(commentList.get(data.getString("name")));
+				
+			}
+		}
+		
+		Set<String> commentIds = commentList.keySet();
+		
+		for(String key : commentIds) {
+			Comment comment = commentList.get(key);
+			if(comment.isTopLevel()) {
+				printComment(comment, "");
+				System.out.println("------------");
+			}
+		}
+	}
+	
+	public static void printComment(Comment comment, String prefix) {
+		System.out.println(prefix + comment.getBody());
+		for(Comment child : comment.getChildren()) {
+			printComment(child, prefix + "\t");
+		}
+	}
+
+}

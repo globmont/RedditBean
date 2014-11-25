@@ -1,0 +1,30 @@
+package api.listings;
+
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
+import helpers.HTTPHelper;
+import helpers.Meta;
+import api.Comment;
+import api.Submission;
+
+public class Listing {
+	private static HTTPHelper http = new HTTPHelper();
+	
+	public static Comment[] getCommentsFromPost(Submission post, String sort, int context, Comment comment, int depth, int limit) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("article", post.getId());
+		params.put("context", "" + context);
+		params.put("sort", sort);
+		params.put("depth", "" + depth);
+		params.put("limit", "" + limit);
+		if(comment != null) {
+			params.put("comment", comment.getId());
+		}
+		HashMap<String, String> headers = new HashMap<String, String>();
+		headers.put("User-Agent", Meta.getUserAgent());
+		JSONObject json = http.makeGetRequest("/r/thebroroom/comments/.json", params, headers);
+	}
+	
+}

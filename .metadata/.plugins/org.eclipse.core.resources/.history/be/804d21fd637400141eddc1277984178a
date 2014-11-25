@@ -1,0 +1,32 @@
+package main;
+
+import api.Comment;
+import api.Submission;
+import api.Subreddit;
+import api.listings.Listing;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		Subreddit theBroRoom = Listing.getSubreddit("passtheblend");
+		Submission[] submissions = Listing.getPostsFromSubreddit(theBroRoom, "top", null, null, 5, "all", 0);
+		Submission first = submissions[0];
+		System.out.println(first.getJSON().toString());
+		Comment[] comments = Listing.getCommentsFromPost(first, "top", 0, null, 100, 100);
+		
+		for(Comment c : comments) {
+			if(c.isTopLevel()) {
+				printComment(c, "");
+				System.out.println("------------");
+			}
+		}
+	}
+	
+	public static void printComment(Comment comment, String prefix) {
+		System.out.println(prefix + comment.getBody());
+		for(Comment child : comment.getChildren()) {
+			printComment(child, prefix + "\t");
+		}
+	}
+
+}
