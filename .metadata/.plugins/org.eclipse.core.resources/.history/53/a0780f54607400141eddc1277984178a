@@ -1,9 +1,0 @@
-package helpers;
-
-public class Meta {
-	private final static String USER_AGENT = "RedditBean by globmont";
-	private static String modhash = "";
-	public static String getUserAgent() {
-		return USER_AGENT;
-	}
-}

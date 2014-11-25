@@ -40,16 +40,18 @@ public class HTTPHelper {
 				builder.setParameter(key, parameters.get(key));
 			}
 		}
-		
-		if(headers != null) {
-			for(String key : headers.keySet()) {
-				getRequest.addHeader(key, headers.get(key));
-			}
-		} else {
+		if(headers == null) {
 			headers = new HashMap<String, String>();
 		}
 		
 		headers.putAll(defaultHeaders);
+
+		for(String key : headers.keySet()) {
+			getRequest.addHeader(key, headers.get(key));
+		}
+		
+		
+		
 		
 		URI uri;
 		try {

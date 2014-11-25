@@ -65,7 +65,7 @@ public class Listing {
 		return new Subreddit(json);
 	}
 	
-	public static Submission[] getPostsFromSubreddit(Subreddit subreddit, String sort, String after, String before, int limit, String show, int count) {
+	public static Submission[] getPostsFromSubreddit(Subreddit subreddit, String sort, String t, String after, String before, int limit, String show, int count) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		if(after != null) {
 			params.put("after", after);
@@ -78,8 +78,10 @@ public class Listing {
 		params.put("limit", "" + limit);
 		params.put("show", show);
 		params.put("count", "" + count);
+		params.put("t", t);
 		
 		JSONObject json = http.makeGetRequest("/r/" + subreddit.get("display_name") + "/" + sort + ".json", params, null);
+		//System.out.println("ME: " + json.toString());
 		Meta.setModhash(json.getJSONObject("data").getString("modhash"));
 		JSONArray submissions = json.getJSONObject("data").getJSONArray("children");
 		Submission[] subArr = new Submission[submissions.length()];

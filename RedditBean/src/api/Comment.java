@@ -2,6 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Comment implements Thing {
@@ -9,6 +10,7 @@ public class Comment implements Thing {
 	private boolean isTopLevel;
 	private ArrayList<Comment> children = new ArrayList<Comment>();
 	private int numDirectChildren = 0;
+	private boolean childrenHaveBeenGenerated = false;
 	
 	public Comment(JSONObject data, boolean isTopLevel) {
 		this.data = data;
@@ -26,7 +28,22 @@ public class Comment implements Thing {
 	}
 	
 	public ArrayList<Comment> getChildren() {
-		return children;
+		//System.out.println(data.toString());
+		if(data.get("replies") instanceof JSONObject) {
+		JSONObject childrenObj = data.getJSONObject("replies");
+			if(!childrenHaveBeenGenerated) {
+				if(childrenObj != null) {
+					JSONArray childrenArr = childrenObj.getJSONObject("data").getJSONArray("children");
+					for(int i = 0; i < childrenArr.length(); i++) {
+						children.add(new Comment(childrenArr.getJSONObject(i).getJSONObject("data"), false));
+					}
+					childrenHaveBeenGenerated = true;
+					return children;
+				}
+			}
+		}
+			
+		return new ArrayList<Comment>();
 	}
 	
 	public boolean isTopLevel() {
