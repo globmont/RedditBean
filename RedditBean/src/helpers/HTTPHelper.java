@@ -73,6 +73,7 @@ public class HTTPHelper {
 				result.append(line);
 			}
 			resultText = result.toString();
+			reader.close();
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

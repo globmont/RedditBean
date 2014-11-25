@@ -66,4 +66,11 @@ public class Comment implements Thing {
 	public String get(String value) {
 		return data.getString(value);
 	}
+	
+	public static void printComment(Comment comment, String prefix) {
+		System.out.println(prefix + comment.get("body"));
+		for(Comment child : comment.getChildren()) {
+			printComment(child, prefix + "\t");
+		}
+	}
 }

@@ -92,4 +92,25 @@ public class Listing {
 		
 		return subArr;
 	}
+	
+	public static Submission[] getPostsByFullNames(String[] names) {
+		String s = "";
+		for(int i = 0; i < names.length; i++) {
+			s += names[i];
+			if(i != names.length - 1) {
+				s += ",";
+			}
+		}
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("names", s);
+		JSONObject json = http.makeGetRequest("/by_id/" + s + "/.json", params, null);
+		Meta.setModhash(json.getJSONObject("data").getString("modhash"));
+		JSONArray submissions = json.getJSONObject("data").getJSONArray("children");
+		Submission[] submissionArr = new Submission[submissions.length()];
+		for(int i = 0; i < submissionArr.length; i++) {
+			submissionArr[i] = new Submission(submissions.getJSONObject(i).getJSONObject("data"));
+		}
+		
+		return submissionArr;
+	}
 }
