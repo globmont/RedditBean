@@ -2,14 +2,10 @@ package api;
 
 import org.json.JSONObject;
 
-public class Submission implements Thing {
-	private JSONObject data;
-	
+public class Submission extends Thing {
+	JSONObject data;
 	public Submission(JSONObject data) {
+		super(data, 3);
 		this.data = data;
-	}
-		
-	public String get(String value) {
-		return data.getString(value);
 	}
 }

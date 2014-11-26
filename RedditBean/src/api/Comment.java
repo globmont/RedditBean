@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Comment implements Thing {
+public class Comment extends Thing {
 	private JSONObject data;
 	private boolean isTopLevel;
 	private ArrayList<Comment> children = new ArrayList<Comment>();
@@ -13,6 +13,7 @@ public class Comment implements Thing {
 	private boolean childrenHaveBeenGenerated = false;
 	
 	public Comment(JSONObject data, boolean isTopLevel) {
+		super(data, 1);
 		this.data = data;
 		this.isTopLevel = isTopLevel;
 	}
@@ -63,10 +64,7 @@ public class Comment implements Thing {
 		return total;
 	}
 		
-	public String get(String value) {
-		return data.getString(value);
-	}
-	
+
 	public static void printComment(Comment comment, String prefix) {
 		System.out.println(prefix + comment.get("body"));
 		for(Comment child : comment.getChildren()) {

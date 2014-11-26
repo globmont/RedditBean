@@ -2,14 +2,11 @@ package api;
 
 import org.json.JSONObject;
 
-public class Subreddit {
-	private JSONObject data;
-	
+public class Subreddit extends Thing{
+	JSONObject data;
 	public Subreddit(JSONObject data) {
+		super(data, 5);
 		this.data = data;
 	}
 
-	public String get(String value) {
-		return data.getString(value);
-	}
 }
